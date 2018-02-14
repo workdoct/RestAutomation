@@ -43,8 +43,14 @@ public class PostAPIResponse {
 		String successCode = response.jsonPath().get("SuccessCode");
 		//Assert.assertEquals( "Correct Success code was returned", successCode, "OPERATION_SUCCESS");
 		
-		System.out.println(statusCode);
-		System.out.println("Response body: " + response.body().asString());
+		//System.out.println(statusCode);
+		//System.out.println("Response body: " + response.body().asString());
+		
+		//Object deserialization
+		DeserializationOfResponse object = response.getBody().as(DeserializationOfResponse.class);
+		System.out.println(object.FaultId);
+		System.out.println(object.fault);
+		
 		
 	}
 
