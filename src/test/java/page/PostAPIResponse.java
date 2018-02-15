@@ -10,6 +10,8 @@ import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 
+import dataClass.DeserializationOfResponse;
+
 public class PostAPIResponse {
 
 	private static Response response;

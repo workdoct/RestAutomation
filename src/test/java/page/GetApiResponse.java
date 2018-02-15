@@ -1,8 +1,11 @@
 package page;
 
+import org.apache.http.util.EntityUtils;
 import org.jbehave.core.annotations.Then;
+import org.json.simple.JSONObject;
 import org.testng.annotations.Test;
 
+import com.google.gson.JsonObject;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.response.Header;
 import com.jayway.restassured.response.Response;
@@ -57,7 +60,7 @@ public class GetApiResponse {
 			then().
 			assertThat().
 			statusCode(statusCode);
-			
+
 		}catch(NullPointerException e) {
 			throw new CustomiseException("Response is null");
 		}
@@ -95,4 +98,11 @@ public class GetApiResponse {
 			throw new CustomiseException("Response is null");
 		}
 	}
+
+	public void convertToJsonObject() {
+		/*String response_string=EntityUtils.toString(res.getEntity(),"UTF-8");
+		JSONObject obj=new JSONObject(response_string);
+		System.out.println("Response JSON is"+obj);*/
+	} 
+
 }
