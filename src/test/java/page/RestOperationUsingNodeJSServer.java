@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 import com.jayway.restassured.http.ContentType;
 import  com.jayway.restassured.response.Response;
 
+import dataClass.Info;
+import dataClass.PostForComplexObject;
 import dataClass.Posts;
 import utilities.CustomiseException;
 
@@ -13,24 +15,31 @@ public class RestOperationUsingNodeJSServer {
 
 	private static Response response;
 	private final String uri = "http://localhost:3000";
+	Scanner sc = new Scanner(System.in);
 
 
 	@Test
 	private void callMethod() {
-		patchRequest();
-		getResponse();
+		//postResponseUsingArray();
+		 deleteRequest();
+		// postResponseUsingComplexObject();
+		// postResponseUsingObject();
+		// deleteRequest();
+		// patchRequest();
+		 getResponse();
+		// putRequest();
+
 	}
 
-	public void getResponse() {
+	private void getResponse() {
 		response = given()
 				.when()
 				.get(uri+ "/posts");
 		System.out.println("Response is " + response.asString());
 	}
 
-	public void postResponse() {
+	private void postResponse() {
 		String id, author,title ;
-		Scanner sc = new Scanner(System.in);
 		try {
 			System.out.println("Enter ID : ");
 			id= sc.next();
@@ -51,14 +60,13 @@ public class RestOperationUsingNodeJSServer {
 		.post(uri+ "/posts");
 	}
 
-	public void postResponseUsingObject(){
+	private void postResponseUsingObject(){
 
-		Scanner sc = new Scanner(System.in);
 		Posts post =  new Posts(); 
 
 		try {
 			System.out.println("Enter ID : ");
-			post.setID(sc.next());
+			post.setID(sc.nextLine());
 
 			System.out.println("Enter author : ");
 			post.setAuthor(sc.nextLine());
@@ -74,17 +82,16 @@ public class RestOperationUsingNodeJSServer {
 		}
 
 		response = given()
-		.body(post)
-		.when()
-		.contentType(ContentType.JSON)
-		.post(uri+ "/posts");
+				.body(post)
+				.when()
+				.contentType(ContentType.JSON)
+				.post(uri+ "/posts");
 
 	}
 
-	public void putRequest() {
+	private void putRequest() {
 
 		String sID ;
-		Scanner sc = new Scanner(System.in);
 		Posts post =  new Posts(); 
 
 		try {
@@ -106,32 +113,25 @@ public class RestOperationUsingNodeJSServer {
 		}
 
 		response = given()
-		.body(post)
-		.when()
-		.contentType(ContentType.JSON)
-		.put(uri+ "/posts/"+sID);
+				.body(post)
+				.when()
+				.contentType(ContentType.JSON)
+				.put(uri+ "/posts/"+sID);
 
 		System.out.println(response.asString());
 	}
-	
-	public void patchRequest() {
+
+	private void patchRequest() {
 
 		String sID ;
 		String author;
-		Scanner sc = new Scanner(System.in);
-		Posts post =  new Posts(); 
 
 		try {
 			System.out.println("Enter ID : ");	//Enter the Id of record you want to change
 			sID = sc.next();
-			post.setID(sID);
 
 			System.out.println("Enter author : "); //Updated value
 			author = sc.next();
-
-			/*System.out.println("Enter title : "); //Updated title
-			post.setTitle(sc.next());*/
-
 
 		}catch(CustomiseException e) {
 			throw new CustomiseException("Enter correct string");
@@ -140,12 +140,114 @@ public class RestOperationUsingNodeJSServer {
 		}
 
 		response = given()
-		.body("\""+author+"\"")
-		.when()
-		.contentType(ContentType.JSON)
-		.patch(uri+ "/posts/"+sID);
+				.body(" { \"author\" : \""+author+"\"}")
+				.when()
+				.contentType(ContentType.JSON)
+				.patch(uri+ "/posts/"+sID);
 
 		System.out.println(response.asString());
 	}
 
+	private void deleteRequest() {
+
+		String sID ;
+
+		try {
+			System.out.println("Enter ID : ");	//Enter the Id of record you want to change
+			sID = sc.next();
+
+		}catch(CustomiseException e) {
+			throw new CustomiseException("Enter correct string");
+		}finally {
+			sc.close();
+		}
+
+		response = given()
+				.when()
+				.delete(uri+ "/posts/"+sID);
+		System.out.println(response.asString());
+	}
+
+	private void postResponseUsingComplexObject() {
+		
+		PostForComplexObject post =  new PostForComplexObject(); 
+		Info info = new Info();
+		try {
+			System.out.println("Enter ID : ");
+			post.setID(sc.nextLine());
+
+			System.out.println("Enter author : ");
+			post.setAuthor(sc.nextLine());
+
+			System.out.println("Enter title : ");
+			post.setTitle(sc.nextLine());
+
+			System.out.println("Enter email : ");
+			info.setEmail(sc.nextLine());
+
+			System.out.println("Enter phone : ");
+			info.setPhone(sc.nextLine());
+
+			post.setInfo(info);
+
+		}catch(CustomiseException e) {
+			throw new CustomiseException("Enter correct string");
+		}finally {
+			sc.close();
+		}
+
+		response = given()
+				.body(post)
+				.when()
+				.contentType(ContentType.JSON)
+				.post(uri+ "/posts");
+		
+		System.out.println("Response  : " + response.asString());
+	}
+
+	private void postResponseUsingArray() {
+		
+		PostForComplexObject post =  new PostForComplexObject(); 
+		Info info = new Info();
+		Info info1 = new Info();
+		try {
+			System.out.println("Enter ID : ");
+			post.setID(sc.nextLine());
+
+			System.out.println("Enter author : ");
+			post.setAuthor(sc.nextLine());
+
+			System.out.println("Enter title : ");
+			post.setTitle(sc.nextLine());
+
+			System.out.println("Enter email : ");
+			info.setEmail(sc.nextLine());
+
+			System.out.println("Enter phone : ");
+			info.setPhone(sc.nextLine());
+			
+			System.out.println("Enter email : ");
+			info1.setEmail(sc.nextLine());
+
+			System.out.println("Enter phone : ");
+			info1.setPhone(sc.nextLine());
+
+			post.setInfo(new Info[] {info,info1} );
+
+		}catch(CustomiseException e) {
+			throw new CustomiseException("Enter correct string");
+		}finally {
+			sc.close();
+		}
+
+		response = given()
+				.body(post)
+				.when()
+				.contentType(ContentType.JSON)
+				.post(uri+ "/posts");
+		
+		System.out.println("Response  : " + response.asString());
+	}
 }
+
+
