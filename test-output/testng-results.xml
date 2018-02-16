@@ -2,12 +2,12 @@
 <testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="2275" started-at="2018-02-16T12:05:06Z" finished-at="2018-02-16T12:05:08Z">
+  <suite name="Default suite" duration-ms="913" started-at="2018-02-16T12:19:59Z" finished-at="2018-02-16T12:20:00Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="2275" started-at="2018-02-16T12:05:06Z" finished-at="2018-02-16T12:05:08Z">
+    <test name="Default test" duration-ms="913" started-at="2018-02-16T12:19:59Z" finished-at="2018-02-16T12:20:00Z">
       <class name="page.RestOperationUsingNodeJSServer">
-        <test-method status="PASS" signature="callMethod()[pri:0, instance:page.RestOperationUsingNodeJSServer@2bbaf4f0]" name="callMethod" duration-ms="2262" started-at="2018-02-16T17:35:06Z" finished-at="2018-02-16T17:35:08Z">
+        <test-method status="PASS" signature="callMethod()[pri:0, instance:page.RestOperationUsingNodeJSServer@2bbaf4f0]" name="callMethod" duration-ms="899" started-at="2018-02-16T17:49:59Z" finished-at="2018-02-16T17:50:00Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- callMethod -->

@@ -2,14 +2,18 @@ package page;
 
 import static com.jayway.restassured.RestAssured.*;
 import java.util.Scanner;
+
 import org.testng.annotations.Test;
 import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.internal.ResponseSpecificationImpl.HamcrestAssertionClosure;
 import  com.jayway.restassured.response.Response;
 
 import dataClass.Info;
 import dataClass.PostForComplexObject;
 import dataClass.Posts;
+import net.bytebuddy.matcher.HasSuperTypeMatcher;
 import utilities.CustomiseException;
+import static org.hamcrest.Matchers.*;
 
 public class RestOperationUsingNodeJSServer {
 
@@ -20,13 +24,14 @@ public class RestOperationUsingNodeJSServer {
 
 	@Test
 	private void callMethod() {
+		calculateResponseTime();
 		//postResponseUsingArray();
-		 deleteRequest();
+		//deleteRequest();
 		// postResponseUsingComplexObject();
 		// postResponseUsingObject();
 		// deleteRequest();
 		// patchRequest();
-		 getResponse();
+		getResponse();
 		// putRequest();
 
 	}
@@ -169,7 +174,7 @@ public class RestOperationUsingNodeJSServer {
 	}
 
 	private void postResponseUsingComplexObject() {
-		
+
 		PostForComplexObject post =  new PostForComplexObject(); 
 		Info info = new Info();
 		try {
@@ -201,12 +206,12 @@ public class RestOperationUsingNodeJSServer {
 				.when()
 				.contentType(ContentType.JSON)
 				.post(uri+ "/posts");
-		
+
 		System.out.println("Response  : " + response.asString());
 	}
 
 	private void postResponseUsingArray() {
-		
+
 		PostForComplexObject post =  new PostForComplexObject(); 
 		Info info = new Info();
 		Info info1 = new Info();
@@ -225,7 +230,7 @@ public class RestOperationUsingNodeJSServer {
 
 			System.out.println("Enter phone : ");
 			info.setPhone(sc.nextLine());
-			
+
 			System.out.println("Enter email : ");
 			info1.setEmail(sc.nextLine());
 
@@ -245,8 +250,28 @@ public class RestOperationUsingNodeJSServer {
 				.when()
 				.contentType(ContentType.JSON)
 				.post(uri+ "/posts");
-		
+
 		System.out.println("Response  : " + response.asString());
+	}
+
+	private void calculateResponseTime() {
+
+		//Direct Response validation
+		given()
+		.when()
+		.get(uri+ "/posts")
+		.then()
+		.time(lessThan(1000L));
+
+		//Response Time calculations
+		Long time = given()
+				.when()
+				.get(uri +"/posts")
+				.then()
+				.extract()
+				.time();
+
+		System.out.println("Response time " + time);
 	}
 }
 
